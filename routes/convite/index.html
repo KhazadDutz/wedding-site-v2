@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-visual">
+    <title>Convite — Laura &amp; Mauricio</title>
+    <link rel="stylesheet" href="../../css/convite.css">
+</head>
+<body>
+
+    <!-- Botão fixo: voltar ao menu (canto superior direito) -->
+    <a href="../menu" id="back-btn" aria-label="Voltar ao menu">Voltar ao menu</a>
+
+    <!-- Cena: imagem do convite centralizada e em tela cheia -->
+    <div id="convite-scene">
+        <div id="convite-wrapper">
+
+            <!-- Imagem do convite (portrait, 1240×1748) -->
+            <!-- Não há versão mobile separada; a imagem já é portrait -->
+            <img id="convite-image"
+                 src="../../images/invite/convite-churrasco.png"
+                 alt="Convite de casamento de Laura e Mauricio — 08 de agosto de 2026">
+
+            <!-- Link Google Maps (posicionado sobre a região do endereço, ~80% do topo) -->
+            <a href="https://maps.app.goo.gl/z4pKFp5R53TYJ8YB8"
+               id="maps-btn"
+               target="_blank"
+               rel="noopener noreferrer"
+               aria-label="Ver localização no Google Maps">
+                📍 Ver localização
+            </a>
+
+        </div>
+
+        <!-- Botão RSVP fora do wrapper: fica abaixo do convite, não cobre o texto -->
+        <button id="rsvp-btn" aria-haspopup="dialog">
+            Confirme aqui sua presença
+        </button>
+
+    </div>
+
+    <!-- Modal de confirmação de presença -->
+    <div id="rsvp-overlay" class="hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div id="rsvp-modal">
+            <p id="modal-title">Digite seu nome completo</p>
+            <input id="name-input"
+                   type="text"
+                   placeholder="Seu nome completo"
+                   autocomplete="name"
+                   aria-label="Nome completo">
+            <button id="confirm-btn">Confirmar</button>
+            <p id="confirmed-msg" class="hidden" role="status">Presença confirmada ✓</p>
+        </div>
+    </div>
+
+    <script src="../../js/convite.js"></script>
+</body>
+</html>

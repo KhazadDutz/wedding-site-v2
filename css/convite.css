@@ -1,0 +1,312 @@
+/* ===== RESET & BASE ===== */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    overscroll-behavior: none;
+    background: #050305;
+    height: 100%;
+    width: 100%;
+}
+
+/* ===== CENA: ocupa toda a viewport, centraliza convite + botão em coluna ===== */
+#convite-scene {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* ===== WRAPPER — mantém o aspect ratio da imagem (1240:1748) ===== */
+/*
+ * Reservamos 60px (botão RSVP + gap) da altura disponível antes de calcular
+ * a largura ideal, para que a imagem + botão caibam juntos na viewport.
+ *
+ *  - Portrait:  width limitada por 100vw
+ *  - Landscape: width = (100dvh - 60px) * ratio (limitada pela altura restante)
+ */
+#convite-wrapper {
+    position: relative;
+    flex-shrink: 0;
+    aspect-ratio: 1240 / 1748;
+    width: min(100vw, calc((100dvh - 60px) * 1240 / 1748));
+    max-height: calc(100dvh - 60px);
+}
+
+/* ===== IMAGEM DO CONVITE ===== */
+#convite-image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    /* wrapper já tem o aspect-ratio correto; fill ocupa exatamente o espaço */
+    object-fit: fill;
+}
+
+/* ===== BOTÃO VOLTAR AO MENU (fixed, canto superior direito) ===== */
+#back-btn {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+    font-style: italic;
+    font-size: clamp(0.875rem, 2.5vw, 0.95rem);
+    color: #c8a84b;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    background: rgba(4, 2, 8, 0.78);
+    border: 1px solid rgba(192, 160, 96, 0.65);
+    border-radius: 3px;
+    text-shadow: 0 0 10px rgba(200, 168, 75, 0.55);
+    box-shadow: 0 0 10px rgba(192, 160, 96, 0.12);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.3s, border-color 0.3s, background 0.3s, box-shadow 0.3s;
+    user-select: none;
+}
+
+@media (hover: hover) {
+    #back-btn:hover {
+        color: #f0e0b0;
+        border-color: rgba(192, 160, 96, 0.9);
+        background: rgba(4, 2, 8, 0.92);
+        box-shadow: 0 0 16px rgba(192, 160, 96, 0.22);
+    }
+}
+
+#back-btn:active {
+    transform: scale(0.97);
+}
+
+/* ===== LINK GOOGLE MAPS (overlay, ~80% do topo da imagem) ===== */
+/*
+ * Posicionado logo abaixo do endereço "RUA ANITA GARIBADI"
+ * que aparece em ~73-79% da altura da imagem.
+ */
+#maps-btn {
+    position: absolute;
+    left: 50%;
+    top: 88.25%;
+    transform: translate(-50%, -50%);
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+    font-style: italic;
+    font-size: clamp(0.875rem, 1.8vw, 0.9rem);
+    color: #c8a84b;
+    text-decoration: none;
+    padding: 0.4rem 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3em;
+    white-space: nowrap;
+    background: rgba(4, 2, 8, 0.62);
+    border: 1px solid rgba(192, 160, 96, 0.6);
+    border-radius: 3px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    text-shadow: 0 0 8px rgba(200, 168, 75, 0.4);
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    user-select: none;
+}
+
+@media (hover: hover) {
+    #maps-btn:hover {
+        color: #f0e0b0;
+        border-color: rgba(192, 160, 96, 0.75);
+        background: rgba(4, 2, 8, 0.82);
+    }
+}
+
+#maps-btn:active {
+    color: #f0e0b0;
+}
+
+/* ===== BOTÃO RSVP (abaixo do convite, fora do wrapper) ===== */
+#rsvp-btn {
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+    font-style: italic;
+    font-size: clamp(0.875rem, 2.2vw, 1rem);
+    letter-spacing: 0.06em;
+    color: #c8a84b;
+    background: rgba(4, 2, 8, 0.72);
+    border: 1px solid rgba(192, 160, 96, 0.75);
+    border-radius: 3px;
+    padding: 0.5rem 1.4rem;
+    min-height: 44px;
+    cursor: pointer;
+    white-space: nowrap;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    text-shadow: 0 0 10px rgba(200, 168, 75, 0.65);
+    box-shadow: 0 0 18px rgba(192, 160, 96, 0.18), inset 0 0 8px rgba(192, 160, 96, 0.05);
+    transition: color 0.3s, border-color 0.3s, background 0.3s, box-shadow 0.3s;
+    user-select: none;
+    flex-shrink: 0;
+}
+
+@media (hover: hover) {
+    #rsvp-btn:hover {
+        color: #f0e0b0;
+        border-color: rgba(192, 160, 96, 0.95);
+        background: rgba(4, 2, 8, 0.9);
+        box-shadow: 0 0 26px rgba(192, 160, 96, 0.32), inset 0 0 10px rgba(192, 160, 96, 0.08);
+    }
+}
+
+#rsvp-btn:active {
+    transform: scale(0.97);
+}
+
+/* ===== MODAL OVERLAY ===== */
+#rsvp-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.82);
+    animation: fadeIn 0.3s ease;
+}
+
+#rsvp-overlay.hidden {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* ===== CAIXA DO MODAL ===== */
+#rsvp-modal {
+    background: #0a0710;
+    border: 1px solid rgba(192, 160, 96, 0.5);
+    border-radius: 4px;
+    padding: 2rem 2.5rem;
+    width: min(90vw, 420px);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+}
+
+#modal-title {
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+    font-style: italic;
+    font-size: clamp(1rem, 4vw, 1.2rem);
+    color: #c8a84b;
+    margin: 0;
+    letter-spacing: 0.05em;
+}
+
+#name-input {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: #e8d8a0;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(192, 160, 96, 0.4);
+    border-radius: 3px;
+    padding: 0.65rem 1rem;
+    min-height: 44px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+#name-input:focus {
+    border-color: rgba(192, 160, 96, 0.85);
+}
+
+#name-input::placeholder {
+    color: rgba(200, 168, 75, 0.35);
+}
+
+#confirm-btn {
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+    font-style: italic;
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+    color: #c8a84b;
+    background: rgba(4, 2, 8, 0.8);
+    border: 1px solid rgba(192, 160, 96, 0.5);
+    border-radius: 3px;
+    padding: 0.65rem 2rem;
+    min-height: 44px;
+    min-width: 60%;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.3s, border-color 0.3s, background 0.3s;
+    user-select: none;
+}
+
+@media (hover: hover) {
+    #confirm-btn:hover {
+        color: #f0e0b0;
+        border-color: rgba(192, 160, 96, 0.85);
+        background: rgba(4, 2, 8, 0.95);
+    }
+}
+
+#confirm-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#confirmed-msg {
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 3vw, 1.05rem);
+    color: #8fbd8f;
+    letter-spacing: 0.05em;
+    margin: 0;
+    text-shadow: 0 0 12px rgba(143, 189, 143, 0.6);
+}
+
+#confirmed-msg.hidden {
+    display: none;
+}
+
+/* ===== LANDSCAPE MOBILE (altura ≤ 500px) ===== */
+@media (max-height: 500px) and (orientation: landscape) {
+    #convite-scene {
+        gap: 4px;
+    }
+
+    #back-btn {
+        top: 6px;
+        right: 6px;
+        font-size: 0.8rem;
+        padding: 0.3rem 0.7rem;
+    }
+
+    #rsvp-btn {
+        font-size: 0.8rem;
+        padding: 0.3rem 1rem;
+        min-height: 36px;
+    }
+
+    #rsvp-modal {
+        padding: 1.2rem 1.8rem;
+        gap: 0.7rem;
+    }
+
+    #modal-title {
+        font-size: 0.9rem;
+    }
+
+    #name-input,
+    #confirm-btn {
+        font-size: 0.9rem;
+    }
+}

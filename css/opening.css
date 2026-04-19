@@ -1,0 +1,418 @@
+/* ===== RESET & BASE ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+html, body {
+    width: 100%;
+    min-height: 100dvh;
+    overflow: hidden;
+    overscroll-behavior: none;
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+    background: #070508;
+}
+
+
+/* ===== OPENING OVERLAY ===== */
+#opening-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    background: radial-gradient(ellipse at 40% 50%, #1c1a2e 0%, #0d0b10 50%, #070508 100%);
+    transition: opacity 1.2s ease;
+    padding: clamp(0.5rem, 2vh, 1.5rem) 0;
+    overflow: hidden;
+}
+
+#opening-overlay.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ===== RUNE GLOW — dentro do #door-container ===== */
+#rune-glow-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background: radial-gradient(ellipse at 50% 48%, rgba(80, 180, 255, 0.18) 0%, transparent 55%);
+    opacity: 0;
+}
+
+.door-awakening #rune-glow-overlay {
+    animation: runeGlowPulse 4s ease-in-out infinite;
+}
+
+/* Raios de luz que percorrem a imagem */
+#rune-streaks {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    overflow: hidden;
+    opacity: 0;
+}
+
+.door-awakening #rune-streaks {
+    animation: streakFadeIn 0.5s ease forwards;
+}
+
+#rune-streaks::before,
+#rune-streaks::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 60%;
+    top: 20%;
+    background: linear-gradient(to bottom, transparent, rgba(120, 210, 255, 0.6), transparent);
+    animation: streakMove 3.5s ease-in-out infinite;
+    filter: blur(1px);
+}
+
+#rune-streaks::before { left: 42%; animation-delay: 0s; }
+#rune-streaks::after  { left: 57%; animation-delay: 1.2s; }
+
+@keyframes runeGlowPulse {
+    0%, 100% { opacity: 0.2; }
+    50%       { opacity: 1; }
+}
+
+@keyframes streakFadeIn { to { opacity: 1; } }
+
+@keyframes streakMove {
+    0%   { transform: translateY(-10%) scaleY(0.5); opacity: 0; }
+    30%  { opacity: 1; }
+    70%  { opacity: 1; }
+    100% { transform: translateY(10%) scaleY(1.2); opacity: 0; }
+}
+
+/* ===== DOOR CONTAINER ===== */
+#door-container {
+    position: relative;
+    display: flex;
+    flex-shrink: 0;
+    /*
+     * min() com três valores:
+     * 1. 72vw — nunca mais largo que 72% da tela
+     * 2. 460px — cap absoluto
+     * 3. calc(62vh * 0.75) — quando max-height (62vh) clampa a altura,
+     *    esta restrição de largura impede distorção da proporção 3:4.
+     *    Sem isso, aspect-ratio não ajusta a largura retroativamente.
+     */
+    width: min(72vw, 460px, calc(62vh * 0.75));
+    aspect-ratio: 3 / 4;
+    max-height: 62vh;
+    z-index: 13;
+    filter: drop-shadow(0 0 30px rgba(0, 0, 0, 0.9));
+}
+
+.door-half {
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    background-image: url('../images/opening/door_of_durin.png');
+    background-size: 200% 100%;
+    filter: grayscale(100%) brightness(0.75);
+    transition: transform 1.8s cubic-bezier(0.4, 0, 0.2, 1),
+                filter 2.5s ease;
+}
+
+#door-left  { transform-origin: left center;  background-position: left center; }
+#door-right { transform-origin: right center; background-position: right center; }
+
+/* Runas acesas: cor, sem retângulo externo */
+.runes-glowing .door-half {
+    filter: grayscale(20%) brightness(1);
+}
+
+/* Retângulo azul: só ao abrir */
+.door-awakening .door-half {
+    filter: grayscale(0%) brightness(1.1)
+            drop-shadow(0 0 8px rgba(100, 200, 255, 0.7))
+            drop-shadow(0 0 25px rgba(100, 200, 255, 0.4));
+}
+
+.door-open #door-left  { transform: perspective(1200px) rotateY(-105deg); }
+.door-open #door-right { transform: perspective(1200px) rotateY(105deg); }
+
+/* Esconde os efeitos de luz quando a porta abre */
+.door-open #rune-streaks,
+.door-open #rune-glow-overlay {
+    opacity: 0 !important;
+    animation: none !important;
+    transition: opacity 0.3s ease;
+}
+
+/* ===== EFEITO DE ENTRADA — zoom no vão da porta ===== */
+#door-container.door-enter {
+    transform: scale(15);
+    transition: transform 0.9s cubic-bezier(0.6, 0, 1, 0.6);
+}
+
+/* ===== FRASE ===== */
+#phrase-container {
+    flex-shrink: 0;
+    text-align: center;
+    z-index: 14;
+    padding: clamp(0.5rem, 1.5vh, 0.85rem) 1.5rem;
+    background: rgba(0, 0, 0, 0.55);
+    border-top: 1px solid rgba(192, 160, 96, 0.2);
+    border-bottom: 1px solid rgba(192, 160, 96, 0.2);
+    /* mesma largura que a porta — mesmo min() para manter alinhamento */
+    width: min(72vw, 460px, calc(62vh * 0.75));
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#phrase-container.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+#phrase {
+    font-size: clamp(0.875rem, 2vw, 1.1rem);
+    font-style: italic;
+    line-height: 1.8;
+    letter-spacing: 0.05em;
+    color: transparent;
+    user-select: none;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        #c8a84b 20%,
+        #f0e0b0 50%,
+        #c8a84b 80%,
+        transparent 100%
+    );
+    background-size: 250% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: phraseRevealLTR 10s ease infinite;
+    filter: drop-shadow(0 0 8px rgba(200, 168, 75, 0.4));
+}
+
+.phrase-highlight {
+    color: #7ec8e3;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    background: none !important;
+    filter: drop-shadow(0 0 8px rgba(126, 200, 227, 0.95));
+}
+
+@keyframes phraseRevealLTR {
+    0%   { background-position: 200% center; opacity: 0.2; }
+    15%  { opacity: 1; }
+    75%  { background-position: -20% center; opacity: 1; }
+    90%  { opacity: 0.2; }
+    100% { background-position: 200% center; opacity: 0.2; }
+}
+
+/* ===== INPUT ===== */
+#input-container {
+    flex-shrink: 0;
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 14;
+    /* mesma largura que a porta — mesmo min() para manter alinhamento */
+    width: min(72vw, 460px, calc(62vh * 0.75));
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#input-container.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+#input-wrapper {
+    position: relative;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+#password-input {
+    background: rgba(8, 7, 15, 0.85);
+    border: 1px solid rgba(192, 160, 96, 0.65);
+    border-radius: 3px;
+    color: #e8d5a3;
+    font-family: inherit;
+    font-size: 1rem; /* mínimo 16px — evita zoom automático no iOS */
+    padding: 0.55rem 1.4rem;
+    outline: none;
+    text-align: center;
+    width: min(60vw, 230px);
+    letter-spacing: 0.15em;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    touch-action: manipulation;
+}
+
+#password-input:focus {
+    border-color: rgba(192, 160, 96, 0.85);
+    box-shadow: 0 0 14px rgba(192, 160, 96, 0.25),
+                inset 0 0 8px rgba(192, 160, 96, 0.05);
+}
+
+#password-input.input-error {
+    border-color: rgba(200, 80, 80, 0.8);
+    animation: inputShake 0.4s ease;
+}
+
+#fake-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgba(200, 180, 140, 0.45);
+    font-size: clamp(1rem, 2.5vw, 1.05rem);
+    pointer-events: none;
+    white-space: nowrap;
+    letter-spacing: 0.08em;
+    transition: opacity 0.15s;
+}
+
+.placeholder-highlight { color: rgba(126, 200, 227, 0.6); }
+
+@keyframes placeholderFade {
+    from { opacity: 0; transform: translate(-50%, -40%); }
+    to   { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+#error-message {
+    color: #c87070;
+    font-size: clamp(0.875rem, 2vw, 0.9rem);
+    font-style: italic;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(200, 80, 80, 0.5);
+    width: 100%;
+    line-height: 1.4;
+    visibility: hidden;
+    min-height: 2.4em;
+    padding: 0 0.5rem;
+    user-select: none;
+}
+
+#error-message.visible {
+    visibility: visible;
+    animation: errorAppear 0.5s ease;
+}
+
+@keyframes errorAppear {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes inputShake {
+    0%, 100% { transform: translateX(0); }
+    20%       { transform: translateX(-6px); }
+    40%       { transform: translateX(6px); }
+    60%       { transform: translateX(-4px); }
+    80%       { transform: translateX(4px); }
+}
+
+/* ===== BOTÃO MIC ===== */
+#mic-btn {
+    background: rgba(8, 7, 15, 0.85);
+    border: 1px solid rgba(192, 160, 96, 0.65);
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #c8a84b;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    flex-shrink: 0;
+    user-select: none;
+}
+
+@media (hover: hover) {
+    #mic-btn:hover {
+        border-color: rgba(192, 160, 96, 0.85);
+        box-shadow: 0 0 12px rgba(192, 160, 96, 0.25);
+    }
+}
+
+#mic-btn.listening {
+    border-color: rgba(220, 80, 80, 0.9);
+    animation: micPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes micPulse {
+    0%, 100% { box-shadow: 0 0 10px rgba(220, 80, 80, 0.4); }
+    50%       { box-shadow: 0 0 24px rgba(220, 80, 80, 0.75); }
+}
+
+/* ===== UTILITY ===== */
+.hidden { display: none !important; }
+
+/* ===== MOBILE (< 480px) ===== */
+@media (max-width: 480px) {
+    #door-container,
+    #phrase-container,
+    #input-container {
+        /* min(90vw, …) para manter proporção 3:4 quando 58vh for limitante */
+        width: min(90vw, calc(58vh * 0.75));
+    }
+
+    #door-container {
+        max-height: 58vh;
+    }
+
+    #phrase {
+        font-size: clamp(0.875rem, 3.5vw, 0.95rem);
+        line-height: 1.7;
+    }
+
+    #password-input {
+        width: 70vw;
+        letter-spacing: 0.1em;
+    }
+}
+
+/* ===== LANDSCAPE MOBILE ===== */
+@media (max-height: 500px) and (orientation: landscape) {
+    /*
+     * Bug fix: sem este ajuste, o width explícito (min(72vw, 460px)) entra
+     * em conflito com o max-height, distorcendo a imagem da porta.
+     * Solução: forçar width = 75% do max-height para manter proporção 3:4.
+     */
+    #door-container,
+    #phrase-container,
+    #input-container {
+        width: calc(50vh * 0.75);
+    }
+
+    #door-container {
+        max-height: 50vh;
+    }
+
+    #phrase-container {
+        padding: 0.3rem 1rem;
+    }
+
+    #phrase {
+        line-height: 1.5;
+        font-size: clamp(0.8rem, 3.5vh, 0.9rem);
+    }
+}

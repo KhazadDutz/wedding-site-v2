@@ -1,0 +1,192 @@
+/* ===== RESET & BASE ===== */
+html, body {
+    margin: 0;
+    padding: 0;
+    background: #050305;
+    min-height: 100dvh;
+    overscroll-behavior: none;
+}
+
+/* ===== LAYOUT ===== */
+#messages-scene {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100dvh;
+    padding: 60px 1rem 2.5rem;
+    box-sizing: border-box;
+    gap: 1.5rem;
+}
+
+/* ===== IMAGEM ===== */
+#messages-image {
+    max-width: min(480px, 90vw);
+    max-height: 40vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    border-radius: 2px;
+}
+
+/* ===== FORMULÁRIO ===== */
+#messages-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+    width: min(480px, 90vw);
+}
+
+#form-title {
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+    font-style: italic;
+    font-size: clamp(1rem, 3vw, 1.1rem);
+    color: #c8a84b;
+    letter-spacing: 0.05em;
+    text-align: center;
+    margin: 0;
+    text-shadow: 0 0 12px rgba(200, 168, 75, 0.3);
+}
+
+#message-input,
+#name-input {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: #e8d8a0;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(192, 160, 96, 0.4);
+    border-radius: 3px;
+    padding: 0.65rem 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-tap-highlight-color: transparent;
+}
+
+#message-input {
+    resize: vertical;
+    min-height: 120px;
+}
+
+#message-input:focus,
+#name-input:focus {
+    border-color: rgba(192, 160, 96, 0.85);
+}
+
+#message-input::placeholder,
+#name-input::placeholder {
+    color: rgba(200, 168, 75, 0.35);
+}
+
+/* ===== BOTÃO ENVIAR ===== */
+#send-btn {
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+    font-style: italic;
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+    color: #c8a84b;
+    background: rgba(4, 2, 8, 0.8);
+    border: 1px solid rgba(192, 160, 96, 0.72);
+    border-radius: 3px;
+    padding: 0.65rem 2rem;
+    min-height: 44px;
+    min-width: 60%;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow: 0 0 16px rgba(192, 160, 96, 0.16);
+    transition: color 0.3s, border-color 0.3s, background 0.3s, box-shadow 0.3s;
+    user-select: none;
+}
+
+@media (hover: hover) {
+    #send-btn:hover {
+        color: #f0e0b0;
+        border-color: rgba(192, 160, 96, 0.95);
+        background: rgba(4, 2, 8, 0.95);
+        box-shadow: 0 0 24px rgba(192, 160, 96, 0.28);
+    }
+}
+
+#send-btn:active {
+    transform: scale(0.97);
+}
+
+#send-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ===== MENSAGEM DE SUCESSO ===== */
+#success-msg {
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 3vw, 1.05rem);
+    color: #8fbd8f;
+    letter-spacing: 0.05em;
+    margin: 0;
+    text-align: center;
+    text-shadow: 0 0 12px rgba(143, 189, 143, 0.6);
+}
+
+#success-msg.hidden {
+    display: none;
+}
+
+/* ===== BOTÃO VOLTAR ===== */
+#back-btn {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+    font-style: italic;
+    font-size: clamp(0.875rem, 2.5vw, 0.95rem);
+    color: #c8a84b;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    background: rgba(4, 2, 8, 0.78);
+    border: 1px solid rgba(192, 160, 96, 0.65);
+    border-radius: 3px;
+    text-shadow: 0 0 10px rgba(200, 168, 75, 0.55);
+    box-shadow: 0 0 10px rgba(192, 160, 96, 0.12);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.3s, border-color 0.3s, background 0.3s, box-shadow 0.3s;
+    user-select: none;
+}
+
+@media (hover: hover) {
+    #back-btn:hover {
+        color: #f0e0b0;
+        border-color: rgba(192, 160, 96, 0.9);
+        background: rgba(4, 2, 8, 0.92);
+        box-shadow: 0 0 16px rgba(192, 160, 96, 0.22);
+    }
+}
+
+#back-btn:active {
+    transform: scale(0.97);
+}
+
+/* ===== LANDSCAPE MOBILE (altura ≤ 500px) ===== */
+@media (max-height: 500px) and (orientation: landscape) {
+    #messages-scene {
+        padding-top: 50px;
+        gap: 1rem;
+    }
+
+    #messages-image {
+        max-height: 28vh;
+    }
+
+    #message-input {
+        min-height: 80px;
+    }
+}

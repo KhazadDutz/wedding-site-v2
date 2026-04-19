@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-visual">
+    <title>Portas de Durin</title>
+    <link rel="stylesheet" href="css/opening.css">
+</head>
+<body>
+
+    <!-- Overlay da abertura -->
+    <div id="opening-overlay">
+
+        <!-- Porta dividida em duas metades para animação de abertura -->
+        <div id="door-container">
+            <!-- Efeito de brilho procedural das runas (dentro da porta) -->
+            <div id="rune-glow-overlay"></div>
+            <div id="rune-streaks"></div>
+            <div id="door-left" class="door-half"></div>
+            <div id="door-right" class="door-half"></div>
+        </div>
+
+        <!-- Frase de Gandalf -->
+        <div id="phrase-container">
+            <p id="phrase">
+                "As Portas de Durin, Senhor de Moria.<br>
+                Fale, <span class="phrase-highlight">amigo</span>, e entre."
+            </p>
+        </div>
+
+        <!-- Input de senha -->
+        <div id="input-container">
+            <div id="input-wrapper">
+                <input
+                    type="text"
+                    id="password-input"
+                    autocomplete="off"
+                    spellcheck="false"
+                >
+                <div id="fake-placeholder">
+                    <span class="placeholder-highlight">amigo</span>
+                </div>
+            </div>
+            <button id="mic-btn" aria-label="Falar a palavra secreta">🎤</button>
+            <p id="error-message">
+                "Esta não é a palavra certa. A porta permanece fechada."
+            </p>
+        </div>
+
+    </div>
+
+    <script src="js/opening.js"></script>
+</body>
+</html>

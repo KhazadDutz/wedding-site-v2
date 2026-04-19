@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-visual">
+    <title>Presentes — Laura &amp; Mauricio</title>
+    <link rel="stylesheet" href="../../css/gifts.css?v=5">
+</head>
+<body>
+
+    <a href="../menu" id="back-btn" aria-label="Voltar ao menu">Voltar ao menu</a>
+
+    <main id="gifts-scene">
+        <h1 id="gifts-title">Lista de Presentes</h1>
+        <div id="gifts-grid"></div>
+    </main>
+
+    <!-- Modal Pix -->
+    <div id="pix-overlay" class="hidden" role="dialog" aria-modal="true" aria-label="Pix">
+        <div id="pix-modal">
+            <img id="pix-qrcode"
+                 src="../../images/pix/pix-qr-code.jpeg"
+                 alt="QR Code Pix — Laura Silveira Reyes">
+
+            <div id="pix-copy-wrapper">
+                <p id="pix-code">00020101021126500014br.gov.bcb.pix0128laurasilveirareyes@gmail.com5204000053039865802BR5913LAURA S REYES6008CURITIBA62070503***6304181C</p>
+                <button id="pix-copy-btn" aria-label="Copiar código Pix">Copiar</button>
+            </div>
+
+            <p id="pix-info">Este Pix será recebido por <strong>Laura Silveira Reyes</strong></p>
+
+            <button id="pix-close-btn" aria-label="Fechar">Fechar</button>
+        </div>
+    </div>
+
+    <script src="../../js/gifts.js"></script>
+</body>
+</html>

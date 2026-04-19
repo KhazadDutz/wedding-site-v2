@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-visual">
+    <title>Mensagens — Laura &amp; Mauricio</title>
+    <link rel="stylesheet" href="../../css/messages.css">
+</head>
+<body>
+
+    <a href="../menu" id="back-btn" aria-label="Voltar ao menu">Voltar ao menu</a>
+
+    <main id="messages-scene">
+
+        <img id="messages-image"
+             src="../../images/messages/messages.jpeg"
+             alt="">
+
+        <form id="messages-form" novalidate>
+            <p id="form-title">Deixe uma mensagem para os noivos</p>
+
+            <textarea id="message-input"
+                      placeholder="Escreva sua mensagem…"
+                      rows="5"
+                      maxlength="1000"
+                      aria-label="Sua mensagem"></textarea>
+
+            <input id="name-input"
+                   type="text"
+                   placeholder="Seu nome"
+                   maxlength="120"
+                   autocomplete="name"
+                   aria-label="Seu nome">
+
+            <button id="send-btn" type="button">Enviar mensagem</button>
+
+            <p id="success-msg" class="hidden" role="status">Mensagem enviada ✓</p>
+        </form>
+
+    </main>
+
+    <script src="../../js/messages.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-visual">
+    <title>Portas de Durin</title>
+    <link rel="stylesheet" href="../../css/menu.css">
+</head>
+<body>
+
+    <div id="behind-door">
+        <div id="menu-scene">
+            <picture>
+                <source media="(max-width: 767px) and (orientation: portrait)" srcset="../../images/menu/menu_mobile.png">
+                <img id="menu-image" src="../../images/menu/3gatesgandalfwithtook.png" alt="Moria">
+            </picture>
+
+            <!-- Botões de navegação -->
+            <div id="menu-buttons">
+                <a href="../convite" class="menu-btn">Convite</a>
+                <a href="../mensagens" class="menu-btn">Deixe sua Mensagem</a>
+                <a href="../presentes" class="menu-btn">Lista de Presentes</a>
+            </div>
+
+            <!-- Easter egg: botão invisível sobre o Pippin e o poço (canto inferior direito) -->
+            <button id="easter-egg-btn" aria-hidden="true" tabindex="-1"></button>
+
+        </div>
+
+        <!-- Overlay "Fool of a Took" -->
+        <div id="fool-overlay" class="hidden">
+            <img id="fool-gif" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdjAyc2pydXh2c21idTJmZDZqZWZqdTVkZDU0Z2NxNWw4aDZkMG83NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9BdJix0bPLujm/giphy.gif" alt="">
+            <div id="fool-text">
+                <p class="fool-line-1">FOOL OF A TOOK</p>
+                <p class="fool-line-2">throw yourself in next time</p>
+                <p class="fool-line-3">and rid us of your stupidity</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/menu.js"></script>
+</body>
+</html>
